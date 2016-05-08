@@ -74,3 +74,144 @@ VALUES
 		(1,4000,'2016-02-03', '2016-04-28'),
 		(2,1000,'2016-04-15', '2016-06-05'),
 		(2,7000,'2016-05-02', '2016-06-25');
+
+
+
+
+--La tabla se encuentra en tercera forma normal debido a que no posee campos de la llave primaria que dependan
+--de otro campo (dependencia transitiva)
+
+--CONSULTAS
+
+--a---------------------------
+SELECT nombre, apellido FROM socios 
+WHERE fecha_nacimiento < '2016-12-31' 
+AND fecha_nacimiento > '2001-12-31'
+ORDER BY nombre;
+--consulta con datos
+SELECT nombre, apellido FROM socios 
+WHERE fecha_nacimiento < '2016-12-31' 
+AND fecha_nacimiento > '1994-12-31'
+ORDER BY nombre;
+
+--b---------------------------
+SELECT 
+	c.cinta_id
+FROM 
+	cintas AS c,
+	socios AS s,
+	prestamos AS p
+WHERE
+	c.cinta_id = p.cinta_id
+AND
+	s.socio_id = p.socio_id
+AND
+	s.nombre like '%Guillermo%'
+AND
+	s.apellido like '%Leon%';
+
+--
+
+SELECT 
+	c.cinta_id
+FROM 
+	prestamos AS p
+JOIN 
+	cintas AS c
+ON 
+	c.cinta_id = p.cinta_id
+JOIN 
+	socios AS s
+ON 
+	s.socio_id = p.socio_id
+WHERE
+	s.nombre like '%Guillermo%'
+AND
+	s.apellido like '%Leon%';
+
+
+--c----------------------------
+
+SELECT 
+	pe.pelicula_id AS Codigo,
+	pe.titulo AS Titulo
+FROM
+	peliculas AS pe,
+	prestamos AS pr,
+	cintas AS c 
+WHERE 
+	pe.pelicula_id = c.pelicula_id
+AND
+	c.cinta_id = pr.cinta_id
+AND 
+	pe.genero like '%Terror%'
+AND
+	pr.devolucion = '2016-04-28';
+
+--
+
+SELECT 
+	pe.pelicula_id AS Codigo,
+	pe.titulo AS Titulo
+FROM
+	cintas AS c
+JOIN 
+	peliculas AS pe
+ON 
+	pe.pelicula_id = c.pelicula_id
+JOIN 
+	prestamos AS pr
+ON
+	c.cinta_id = pr.cinta_id
+WHERE 
+	pe.genero like '%Terror%'
+AND
+	pr.devolucion = '2016-04-28';
+
+
+--d----------------------------
+SELECT
+	s.socio_id AS Codigo,
+	s.nombre AS Nombre,
+	s.direccion AS Direccion,
+	pe.titulo AS Pelicula
+FROM
+	prestamos AS pr,
+	socios AS s,
+	peliculas AS pe,
+	cintas AS c
+WHERE
+	pr.socio_id = s.socio_id
+AND
+	pr.cinta_id = c.cinta_id
+AND	
+	pe.pelicula_id = c.pelicula_id
+AND
+	pe.genero like '%Terror%';
+
+--e----------------------------
+
+SELECT 
+	c.nombre,
+	count(s.socio_id)
+FROM 
+	ciudades AS c,
+	socios AS s
+WHERE
+	s.ciudad_id=c.ciudad_id
+GROUP BY
+	c.ciudad_id;
+
+--f----------------------------
+
+SELECT
+c.ciudad_id,
+count(s.socio_id)
+FROM 
+	ciudades AS c,
+	socios AS s
+WHERE
+	s.ciudad_id=c.ciudad_id
+GROUP BY 
+	c.ciudad_id
+HAVING count(s.socio_id)>3
