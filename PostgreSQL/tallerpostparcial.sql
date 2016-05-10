@@ -236,5 +236,5 @@ GROUP BY
 ------------------------------
 SELECT * FROM sociosporciudad
 
-
-
+--------Procedimientos-------
+--------triggers-------------
