@@ -1,3 +1,6 @@
+--JHON FREDY BELTRAN LEON 						161214203
+
+
 CREATE TABLE ciudades (
 		ciudad_id INTEGER PRIMARY KEY,
 		nombre VARCHAR (30) NOT NULL 
