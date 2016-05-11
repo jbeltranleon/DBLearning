@@ -218,3 +218,26 @@ WHERE
 GROUP BY 
 	c.ciudad_id
 HAVING count(s.socio_id)>3
+
+
+---------------Vista----------
+
+CREATE VIEW sociosporciudad AS
+SELECT
+
+c.ciudad_id AS Codigo,
+c.nombre AS Nombre,
+count(s.socio_id) AS Cantidad_socios
+FROM 
+	ciudades AS c,
+	socios AS s
+WHERE
+	s.ciudad_id=c.ciudad_id
+GROUP BY 
+	c.ciudad_id
+
+------------------------------
+SELECT * FROM sociosporciudad
+
+--------Procedimientos-------
+--------triggers-------------
