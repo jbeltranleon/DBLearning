@@ -239,5 +239,44 @@ GROUP BY
 ------------------------------
 SELECT * FROM sociosporciudad
 
---------Procedimientos-------
+--------Procedimientos (Funciones almacenadas)-------
+
+CREATE OR REPLACE FUNCTION socioPorPais (codigoSocio INTEGER )
+RETURNS TEXT
+AS $BODY$
+DECLARE
+		variableDeAlmacenado RECORD;
+BEGIN
+	
+
+	SELECT 
+		c.nombre,
+		count(s.socio_id)
+	INTO 
+		variableDeAlmacenado
+	FROM 
+		ciudades AS c,
+		socios AS s
+	WHERE
+		s.ciudad_id=c.ciudad_id
+	AND
+		c.ciudad_id=codigoSocio
+	GROUP BY
+		c.ciudad_id;
+
+	RETURN variableDeAlmacenado::TEXT;
+
+END;
+$BODY$
+--Tipo de lenguaje
+LANGUAGE 'plpgsql';
+--comentario en funciones
+COMMENT ON FUNCTION socioPorPais  (codigoSocio INTEGER ) IS 
+'Funcion que encuentra los socios de cada pais';
+
+
+
+SELECT socioPorPais(10);
+
+
 --------triggers-------------
