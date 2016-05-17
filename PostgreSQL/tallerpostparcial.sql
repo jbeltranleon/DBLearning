@@ -280,3 +280,27 @@ SELECT socioPorPais(10);
 
 
 --------triggers-------------
+
+CREATE TABLE nuevosSocios (
+		socio_id INTEGER PRIMARY KEY,
+		ciudad_id INTEGER REFERENCES ciudades(ciudad_id),
+		nombre VARCHAR (30) NOT NULL,
+		apellido VARCHAR (30) NOT NULL,
+		direccion VARCHAR (40) NOT NULL,
+		fecha_nacimiento DATE NOT NULL
+);
+
+
+
+CREATE OR REPLACE FUNCTION insertar_nuevo_socio()
+RETURNS TRIGGER AS $insertar$
+DECLARE BEGIN
+	INSERT INTO socios values(OLD.socio_id, OLD.nombre, OLD.apellido, OLD.direccion, OLD.ciudad_id, OLD.fecha_nacimiento );
+	RETURN NULL;
+END;
+$insertar$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER nuevo_socio AFTER DELETE
+ON socios FOR EACH ROW
+EXECUTE PROCEDURE insertar_nuevo_socio();
