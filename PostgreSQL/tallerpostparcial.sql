@@ -281,28 +281,28 @@ SELECT socioPorPais(10);
 
 --------triggers-------------
 
-CREATE TABLE peliculasFueraDeCartelera (
-		pelicula_id INTEGER PRIMARY KEY,
-		titulo VARCHAR (50) NOT NULL,
-		genero VARCHAR (30) NOT NULL
-);
+CREATE OR REPLACE FUNCTION proteger_datos() 
+RETURNS TRIGGER AS 
+$proteger_datos$
+  DECLARE
+  BEGIN
+   
+   --
+   -- Esta funcion es usada para proteger datos en un tabla 
+   --
 
-
-
-CREATE OR REPLACE FUNCTION insertar_peliculas_fuera_de_cartelera()
-RETURNS TRIGGER AS $insertar$
-DECLARE BEGIN
-	INSERT INTO peliculasFueraDeCartelera values(OLD.pelicula_id, OLD.titulo, OLD.genero);
-	RETURN NULL; 
-END;
-$insertar$
+   RETURN NULL;
+  END;
+$proteger_datos$ 
 LANGUAGE plpgsql;
+COMMENT ON FUNCTION proteger_datos() IS 
+'Recuerda que no puedes eliminar ciudades';
 
-CREATE TRIGGER fuera_de_cartelera AFTER DELETE 
-ON peliculas FOR EACH ROW 
-EXECUTE PROCEDURE insertar_peliculas_fuera_de_cartelera();
 
-DELETE FROM peliculas WHERE pelicula_id = 100;
+CREATE TRIGGER proteger_datos BEFORE DELETE 
+    ON ciudades FOR EACH ROW 
+EXECUTE PROCEDURE proteger_datos();
 
-SELECT * FROM peliculas;
-SELECT * FROM peliculasFueraDeCartelera;
+DELETE FROM ciudades where ciudad_id = 10;
+
+
