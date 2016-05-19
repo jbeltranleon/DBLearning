@@ -323,7 +323,7 @@ CREATE TABLE peliculasFueraDeCartelera (
 CREATE OR REPLACE FUNCTION insertar_peliculas_fuera_de_cartelera()
 RETURNS TRIGGER AS $insertar$
 DECLARE BEGIN
-	INSERT INTO peliculasFueraDeCartelera values(OLD.pelicula_id, OLD.titulo, OLD.genero, OLD.estado);
+	INSERT INTO peliculasFueraDeCartelera values(NEW.pelicula_id, NEW.titulo, NEW.genero, NEW.estado);
 	RETURN NULL; 
 END;
 $insertar$
