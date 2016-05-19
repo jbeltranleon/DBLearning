@@ -281,26 +281,28 @@ SELECT socioPorPais(10);
 
 --------triggers-------------
 
-CREATE TABLE nuevosSocios (
-		socio_id INTEGER PRIMARY KEY,
-		ciudad_id INTEGER REFERENCES ciudades(ciudad_id),
-		nombre VARCHAR (30) NOT NULL,
-		apellido VARCHAR (30) NOT NULL,
-		direccion VARCHAR (40) NOT NULL,
-		fecha_nacimiento DATE NOT NULL
+CREATE TABLE peliculasFueraDeCartelera (
+		pelicula_id INTEGER PRIMARY KEY,
+		titulo VARCHAR (50) NOT NULL,
+		genero VARCHAR (30) NOT NULL
 );
 
 
 
-CREATE OR REPLACE FUNCTION insertar_nuevo_socio()
+CREATE OR REPLACE FUNCTION insertar_peliculas_fuera_de_cartelera()
 RETURNS TRIGGER AS $insertar$
 DECLARE BEGIN
-	INSERT INTO socios values(OLD.socio_id, OLD.nombre, OLD.apellido, OLD.direccion, OLD.ciudad_id, OLD.fecha_nacimiento );
-	RETURN NULL;
+	INSERT INTO peliculasFueraDeCartelera values(OLD.pelicula_id, OLD.titulo, OLD.genero);
+	RETURN NULL; 
 END;
 $insertar$
 LANGUAGE plpgsql;
 
-CREATE TRIGGER nuevo_socio AFTER DELETE
-ON socios FOR EACH ROW
-EXECUTE PROCEDURE insertar_nuevo_socio();
+CREATE TRIGGER fuera_de_cartelera AFTER DELETE 
+ON peliculas FOR EACH ROW 
+EXECUTE PROCEDURE insertar_peliculas_fuera_de_cartelera();
+
+DELETE FROM peliculas WHERE pelicula_id = 100;
+
+SELECT * FROM peliculas;
+SELECT * FROM peliculasFueraDeCartelera;
