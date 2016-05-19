@@ -30,7 +30,8 @@ CREATE TABLE prestamos (
 		socio_id INTEGER REFERENCES socios (socio_id),
 		cinta_id INTEGER REFERENCES cintas (cinta_id),
 		prestamo DATE NOT NULL,
-		devolucion DATE 
+		devolucion DATE,
+		PRIMARY KEY(socio_id, cinta_id)
 );
 
 INSERT INTO ciudades (ciudad_id, nombre)
@@ -306,3 +307,34 @@ EXECUTE PROCEDURE proteger_datos();
 DELETE FROM ciudades where ciudad_id = 10;
 
 
+---------------------------------------------
+
+ALTER TABLE peliculas ADD estado INTEGER NOT NULL DEFAULT 1;
+
+CREATE TABLE peliculasFueraDeCartelera (
+		pelicula_id INTEGER PRIMARY KEY,
+		titulo VARCHAR (50) NOT NULL,
+		genero VARCHAR (30) NOT NULL,
+		estado INTEGER NOT NULL
+);
+
+
+
+CREATE OR REPLACE FUNCTION insertar_peliculas_fuera_de_cartelera()
+RETURNS TRIGGER AS $insertar$
+DECLARE BEGIN
+	INSERT INTO peliculasFueraDeCartelera values(OLD.pelicula_id, OLD.titulo, OLD.genero, OLD.estado);
+	RETURN NULL; 
+END;
+$insertar$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER fuera_de_cartelera AFTER UPDATE 
+ON peliculas FOR EACH ROW 
+EXECUTE PROCEDURE insertar_peliculas_fuera_de_cartelera();
+
+UPDATE peliculas set estado = 0
+where pelicula_id = 100;
+
+SELECT * FROM peliculas;
+SELECT * FROM peliculasFueraDeCartelera;
