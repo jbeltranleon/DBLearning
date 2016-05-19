@@ -272,7 +272,7 @@ $BODY$
 --Tipo de lenguaje
 LANGUAGE 'plpgsql';
 --comentario en funciones
-COMMENT ON FUNCTION socioPorCuidad  (codigoCiudad INTEGER ) IS 
+COMMENT ON FUNCTION socioPorCiudad (codigoCiudad INTEGER ) IS 
 'Funcion que encuentra los socios de cada pais';
 
 
