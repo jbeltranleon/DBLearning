@@ -277,7 +277,7 @@ COMMENT ON FUNCTION socioPorCuidad  (codigoCiudad INTEGER ) IS
 
 
 
-SELECT socioPorPais(10);
+SELECT socioPorCiudad(10);
 
 
 --------triggers-------------
