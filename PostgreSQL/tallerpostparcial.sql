@@ -312,7 +312,7 @@ DELETE FROM ciudades where ciudad_id = 10;
 ALTER TABLE peliculas ADD estado INTEGER NOT NULL DEFAULT 1;
 
 CREATE TABLE peliculasFueraDeCartelera (
-		pelicula_id INTEGER PRIMARY KEY,
+		codigo_pelicula INTEGER PRIMARY KEY,
 		titulo VARCHAR (50) NOT NULL,
 		genero VARCHAR (30) NOT NULL,
 		estado INTEGER NOT NULL
