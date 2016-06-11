@@ -36,3 +36,4 @@ DELETE FROM peliculas WHERE pelicula_id = 100;
 
 SELECT * FROM peliculas;
 SELECT * FROM peliculasFueraDeCartelera;
+
