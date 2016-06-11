@@ -242,7 +242,7 @@ SELECT * FROM sociosporciudad
 
 --------Procedimientos (Funciones almacenadas)-------
 
-CREATE OR REPLACE FUNCTION socioPorPais (codigoSocio INTEGER )
+CREATE OR REPLACE FUNCTION socioPorCiudad (codigoCiudad INTEGER )
 RETURNS TEXT
 AS $BODY$
 DECLARE
@@ -261,7 +261,7 @@ BEGIN
 	WHERE
 		s.ciudad_id=c.ciudad_id
 	AND
-		c.ciudad_id=codigoSocio
+		c.ciudad_id=codigoCiudad
 	GROUP BY
 		c.ciudad_id;
 
@@ -272,12 +272,12 @@ $BODY$
 --Tipo de lenguaje
 LANGUAGE 'plpgsql';
 --comentario en funciones
-COMMENT ON FUNCTION socioPorPais  (codigoSocio INTEGER ) IS 
+COMMENT ON FUNCTION socioPorCiudad (codigoCiudad INTEGER ) IS 
 'Funcion que encuentra los socios de cada pais';
 
 
 
-SELECT socioPorPais(10);
+SELECT socioPorCiudad(10);
 
 
 --------triggers-------------
@@ -323,7 +323,7 @@ CREATE TABLE peliculasFueraDeCartelera (
 CREATE OR REPLACE FUNCTION insertar_peliculas_fuera_de_cartelera()
 RETURNS TRIGGER AS $insertar$
 DECLARE BEGIN
-	INSERT INTO peliculasFueraDeCartelera values(OLD.pelicula_id, OLD.titulo, OLD.genero, OLD.estado);
+	INSERT INTO peliculasFueraDeCartelera values(NEW.pelicula_id, NEW.titulo, NEW.genero, NEW.estado);
 	RETURN NULL; 
 END;
 $insertar$
