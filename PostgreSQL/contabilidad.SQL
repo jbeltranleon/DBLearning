@@ -91,10 +91,20 @@ INSERT INTO gastos (concepto, cantidad, valorUnitario, valorTotal)
 VALUES 
 	('Arriendo', 1, 1000000, 1000000);
 
-/*CREATE VIEW movimientos AS 
-SELECT * FROM ventas, gastos, inventario;
-
 CREATE VIEW inventario AS 
-SELECT * FROM productos, activos;*/
+(SELECT * FROM productos)
+UNION 
+(SELECT * FROM activos);
 
+CREATE VIEW movimientos AS
+(SELECT * FROM ventas)
+UNION 
+(SELECT * FROM gastos)
+UNION
+(SELECT * FROM inventario);
 
+select * from inventario;
+order by fecha
+
+select * from movimientos
+order by fecha;
