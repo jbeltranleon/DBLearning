@@ -57,18 +57,23 @@ CREATE TABLE gastos (
 	fecha DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
+CREATE TABLE catalogos(
+	movimiento_id SERIAL PRIMARY KEY,
+	nombre VARCHAR (30) NOT NULL,
+	cantidad INTEGER NOT NULL,
+	valorUnitario INTEGER NOT NULL,
+	valorTotal INTEGER NOT NULL,
+	fecha DATE NOT NULL DEFAULT CURRENT_DATE,
+	catalogo VARCHAR (20) NOT NULL
+)
 
-CREATE VIEW inventario AS 
-(SELECT * FROM productos)
-UNION 
-(SELECT * FROM activos);
 
 CREATE VIEW movimientos AS
 (SELECT * FROM ventas)
 UNION 
 (SELECT * FROM gastos)
 UNION
-(SELECT * FROM inventario);
+(SELECT * FROM activos);
 
 select * from inventario
 order by fecha;
