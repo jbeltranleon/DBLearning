@@ -64,19 +64,33 @@ CREATE TABLE catalogos(
 	valorUnitario INTEGER NOT NULL,
 	valorTotal INTEGER NOT NULL,
 	fecha DATE NOT NULL DEFAULT CURRENT_DATE,
-	catalogo VARCHAR (20) NOT NULL
-)
+	catalogo VARCHAR(30) NOT NULL
+);
 
+CREATE VIEW catalogosUnion AS
+SELECT
+	movimiento_id,
+	nombre,
+	cantidad,
+	valorUnitario,
+	valorTotal,
+	fecha
+FROM
+	catalogos;
 
-CREATE VIEW movimientos AS
-(SELECT * FROM ventas)
-UNION 
+CREATE VIEW movimientosSalida AS
 (SELECT * FROM gastos)
 UNION
 (SELECT * FROM activos);
 
-select * from inventario
+CREATE VIEW movimientosEntrada AS
+(SELECT * FROM ventas)
+UNION
+(SELECT * FROM catalogosUnion);
+
+
+select * from movimientosSalida
 order by fecha;
 
-select * from movimientos
+select * from movimientosEntrada
 order by fecha;
