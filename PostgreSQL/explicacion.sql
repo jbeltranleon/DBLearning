@@ -1,9 +1,23 @@
-/* Relacion de uno a uno */
 
-/*veterinarios grupos de trabajo 1 veterinario es jefe de 1 grupo*/
 
 CREATE DATABASE veterinaria;
 USE veterinaria;
+
+/*Relación de uno a muchos*/
+
+CREATE TABLE areasDeTrabajo (
+	areaDeTrabajo_id SERIAL PRIMARY KEY,
+	nombre VARCHAR(20) NOT NULL
+);
+
+INSERT INTO areasDeTrabajo (nombre)
+VALUES
+	('INSECTOS'),
+	('PECES DE OCEANO');
+
+/* Relacion de uno a uno */
+
+/*veterinarios grupos de trabajo 1 veterinario es jefe de 1 grupo*/
 
 CREATE TABLE veterinarios(
 	veterinario_id INTEGER PRIMARY KEY,
@@ -11,7 +25,7 @@ CREATE TABLE veterinarios(
 	segundo_nombre VARCHAR (15) DEFAULT '---',
 	primer_apellido VARCHAR (15) NOT NULL,
 	segundo_apellido VARCHAR (15) DEFAULT '---',
-	areaDeTrabajo_id INTEGER REFERENCES areasDeTrabajo(areaDeTrabajo_id) NOT NULL
+	areaDeTrabajo_id INTEGER REFERENCES areasDeTrabajo(areaDeTrabajo_id)
 );
 
 INSERT INTO veterinarios (veterinario_id, primer_apellido, primer_nombre)
@@ -34,17 +48,6 @@ VALUES
 /*ALTER TABLE gruposDeTrabajo ADD CONSTRAINT fk_vet_grupos FOREIGN KEY(jefe_id) REFERENCES veterinarios(veterinarios_id);*/
 
 
-/*Relación de uno a muchos*/
-
-CREATE TABLE areasDeTrabajo (
-	areaDeTrabajo_id SERIAL PRIMARY KEY,
-	nombre VARCHAR(20) NOT NULL,
-);
-
-INSERT INTO areasDeTrabajo (nombre)
-VALUES
-	('INSECTOS'),
-	('PECES DE OCEANO');
 
 
 /*Relación de muchos a muchos*/
