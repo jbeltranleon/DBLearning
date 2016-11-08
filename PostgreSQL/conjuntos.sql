@@ -63,17 +63,6 @@ VALUES
 	(2, 'Noviembre', '2016-11-20', 50000, 0);
 
 
-CREATE TABLE estados(
-	id SERIAL PRIMARY KEY,
-	factura_id INTEGER NOT NULL REFERENCES facturas(id)
-);
-
-INSERT INTO estados(factura_id)
-VALUES
-	(1),
-	(2),
-	(3),
-	(4);
 
 
 CREATE VIEW facturasCompleto AS
@@ -108,23 +97,27 @@ AND
 
 CREATE VIEW EstadoA1 AS
 SELECT 
-	estados.id, casas.direccion, clientes.primer_nombre, facturasCompleto.periodo_facturado, facturasCompleto.total
-FROM
-	estados
-JOIN
+	facturasCompleto.id AS id,
+	clientes.primer_nombre AS nombre,
+	casas.direccion AS direccion, 
+	facturasCompleto.periodo_facturado AS periodo_facturado, 
+	facturasCompleto.pago_oportuno AS pago_oportuno, 
+	facturasCompleto.total AS total
+FROM 
 	facturasCompleto
-ON
-	estados.factura_id = facturasCompleto.id
 JOIN
 	casas
 ON
 	facturasCompleto.casa_id = casas.id
 JOIN
 	clientes
-ON	
-	casas.cliente_id = clientes.id
+ON
+	clientes.id = casas.cliente_id
 where
-	casas.id = 1;
+	casas.id = 1
+
+
+
 
 
 
