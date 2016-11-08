@@ -71,7 +71,9 @@ CREATE TABLE estados(
 INSERT INTO estados(factura_id)
 VALUES
 	(1),
-	(2);
+	(2),
+	(3),
+	(4);
 
 
 CREATE VIEW facturasCompleto AS
@@ -80,7 +82,7 @@ SELECT
 FROM
 	facturas;
 
-CREATE VIEW FacturaA1 AS
+CREATE VIEW FacturaA1octubre AS
 SELECT 
 	facturasCompleto.id AS id,
 	clientes.primer_nombre AS nombre,
@@ -99,7 +101,9 @@ JOIN
 ON
 	clientes.id = casas.cliente_id
 where
-	clientes.id = 1;
+	clientes.id = 1
+AND 
+	facturasCompleto.periodo_facturado = 'Octubre';
 
 
 CREATE VIEW EstadoA1 AS
