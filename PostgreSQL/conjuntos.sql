@@ -37,14 +37,24 @@ VALUES
 
 CREATE TABLE casas(
 	id SERIAL PRIMARY KEY,
-	direccion VARCHAR(50),
-	cliente_id INTEGER NOT NULL REFERENCES clientes(id)
+	direccion VARCHAR(50)
 );
 
-INSERT INTO casas(direccion, cliente_id)
+INSERT INTO casas(direccion)
 VALUES
-	('a1', 1),
-	('h7', 2);
+	('a1'),
+	('h7');
+
+CREATE TABLE clientes_casas(
+	casa_id INTEGER REFERENCES casas(id),
+	cliente_id INTEGER REFERENCES clientes(cliente_id),
+	PRIMARY KEY (casa_id,cliente_id)
+);
+
+INSERT INTO clientes_casas 
+VALUES
+	(1,1),
+	(2,2);
 
 CREATE TABLE facturas(
 	id SERIAL PRIMARY KEY,
